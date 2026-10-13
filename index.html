@@ -557,38 +557,70 @@
           <span class="section-no">05 / PRICING</span>
           <div><h2 id="pricing-title">Start with proof, scale with systems.</h2><p class="section-intro">Every engagement begins with a free pilot — you see the system working on your business before spending anything. Final scope and pricing are fixed on the discovery call.</p></div>
         </div>
-        <div class="allinone">
+        <div class="packages">
           <style>
-            .allinone { margin-top: 34px; background: linear-gradient(135deg, rgba(88,227,158,.08), rgba(88,227,158,.02)); border: 2px solid var(--accent); border-radius: 16px; padding: 38px 36px; position: relative; overflow: hidden; }
-            .allinone .tier { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 800; margin-bottom: 10px; }
-            .allinone h3 { font-size: 26px; margin-bottom: 10px; }
-            .allinone .tagline { color: var(--muted); font-size: 15.5px; margin-bottom: 22px; max-width: 640px; }
-            .allinone .includes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; margin-bottom: 26px; }
-            .allinone .includes span { font-size: 14.5px; padding-left: 26px; position: relative; }
-            .allinone .includes span::before { content: "✓"; position: absolute; left: 2px; color: var(--accent); font-weight: 800; }
-            .allinone .deal { display: flex; gap: 36px; flex-wrap: wrap; align-items: center; border-top: 1px solid var(--line); padding-top: 24px; }
-            .allinone .deal .d1 { font-size: 15px; }
-            .allinone .deal .d1 strong { display: block; font-size: 30px; color: var(--ink); }
-            .allinone .deal .d1 span { color: var(--muted); font-size: 13px; }
-            .allinone .deal .plus { font-size: 26px; color: var(--muted); font-weight: 300; }
-            @media (max-width: 640px) { .allinone .includes { grid-template-columns: 1fr; } }
+            .packages { margin-top: 34px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; }
+            .pkg { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 32px 28px; display: flex; flex-direction: column; position: relative; }
+            .pkg.flagship { border: 2px solid var(--accent); background: linear-gradient(135deg, rgba(88,227,158,.07), rgba(88,227,158,.015)); transform: scale(1.03); }
+            .pkg .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #07110b; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 16px; border-radius: 20px; white-space: nowrap; }
+            .pkg .tier { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 8px; }
+            .pkg.flagship .tier { color: var(--accent); }
+            .pkg h3 { font-size: 22px; margin: 0 0 8px; }
+            .pkg .desc { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+            .pkg .price-line { margin-bottom: 4px; }
+            .pkg .price-line strong { font-size: 32px; }
+            .pkg .price-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+            .pkg ul { list-style: none; margin: 0 0 26px; padding: 0; flex-grow: 1; }
+            .pkg li { padding: 7px 0 7px 24px; position: relative; font-size: 14px; border-top: 1px solid var(--line); }
+            .pkg li::before { content: "✓"; position: absolute; left: 2px; color: var(--accent); font-weight: 800; }
+            .pkg .button { text-align: center; }
+            @media (max-width: 860px) { .packages { grid-template-columns: 1fr; } .pkg.flagship { transform: none; } }
           </style>
-          <div class="tier">Flagship — Everything Done For You</div>
-          <h3>Entire Business on AI</h3>
-          <p class="tagline">The complete playbook, fully built and run for you — UGC ads at mass level, AI responder, daily reports, voice agent, WhatsApp agent, and client reactivation. Your whole front desk and marketing, automated.</p>
-          <div class="includes">
-            <span>UGC video ads at mass level</span>
-            <span>AI comment &amp; DM responder</span>
-            <span>Daily reports &amp; stats dashboard</span>
-            <span>Inbound AI voice agent</span>
-            <span>WhatsApp AI booking agent</span>
-            <span>Automatic client reactivation offers</span>
+
+          <div class="pkg">
+            <div class="tier">Starter</div>
+            <h3>AI Receptionist</h3>
+            <p class="desc">Never miss another enquiry. Your front desk, automated.</p>
+            <div class="price-line"><strong>£400</strong></div>
+            <p class="price-sub">upfront setup<br>then <strong>£150/month</strong></p>
+            <ul>
+              <li>WhatsApp AI booking agent</li>
+              <li>AI comment &amp; DM responder</li>
+              <li>Daily enquiry summary</li>
+              <li>14-day free pilot</li>
+            </ul>
+            <a class="button secondary" href="mailto:officialnightpulseai@gmail.com?subject=AI%20Receptionist%20package">Start Free Pilot</a>
           </div>
-          <div class="deal">
-            <div class="d1"><strong>£1200</strong><span>upfront — covers the first month,<br>all tools &amp; every expense</span></div>
-            <div class="plus">then</div>
-            <div class="d1"><strong>£350<span style="font-size:16px">/mo</span></strong><span>plus 13% commission<br>on every client booked</span></div>
-            <a class="button" href="mailto:officialnightpulseai@gmail.com?subject=Entire%20Business%20on%20AI%20package" style="margin-left:auto">Claim This Package</a>
+
+          <div class="pkg">
+            <div class="tier">Growth</div>
+            <h3>Growth Engine</h3>
+            <p class="desc">Fill your calendar with AI-driven marketing + automation.</p>
+            <div class="price-line"><strong>£750</strong></div>
+            <p class="price-sub">upfront — covers month one,<br>all tools &amp; ad spend<br>then <strong>£250/month</strong> + 10% per client</p>
+            <ul>
+              <li>Everything in AI Receptionist</li>
+              <li>UGC video ads at mass level</li>
+              <li>Inbound AI voice agent</li>
+              <li>Weekly performance reports</li>
+            </ul>
+            <a class="button secondary" href="mailto:officialnightpulseai@gmail.com?subject=Growth%20Engine%20package">Claim This Package</a>
+          </div>
+
+          <div class="pkg flagship">
+            <span class="badge">Most Popular</span>
+            <div class="tier">Flagship</div>
+            <h3>Entire Business on AI</h3>
+            <p class="desc">Your whole front desk and marketing, fully automated.</p>
+            <div class="price-line"><strong>£1200</strong></div>
+            <p class="price-sub">upfront — covers the first month,<br>all tools &amp; every expense<br>then <strong>£350/month</strong> + 13% per client</p>
+            <ul>
+              <li>Everything in Growth Engine</li>
+              <li>Automatic client reactivation</li>
+              <li>Full stats dashboard at your fingertips</li>
+              <li>Priority support &amp; optimisation</li>
+            </ul>
+            <a class="button" href="mailto:officialnightpulseai@gmail.com?subject=Entire%20Business%20on%20AI%20package">Claim This Package</a>
           </div>
         </div>
         <p class="pricing-note">Not sure which fits? Book a call — we'll tell you honestly what your business actually needs.</p>
