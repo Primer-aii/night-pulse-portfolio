@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Night Pulse AI — Automation & AI-Powered Marketing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f3f5f2;
+      --surface: #ffffff;
+      --surface-2: #e8ece8;
+      --surface-3: #dae0db;
+      --ink: #111812;
+      --muted: #4b5950;
+      --line: #cbd2cc;
+      --accent: #087a55;
+      --accent-bright: #09a86e;
+      --accent-soft: #d8f5e7;
+      --hot: #d7532f;
+      --hero-line: rgba(17,24,18,.08);
+      --shadow: 0 24px 80px rgba(25, 43, 31, .12);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #080b09;
+        --surface: #0e1310;
+        --surface-2: #151b17;
+        --surface-3: #202820;
+        --ink: #f1f5ef;
+        --muted: #a7b1a8;
+        --line: #29322b;
+        --accent: #58e39e;
+        --accent-bright: #74f2b2;
+        --accent-soft: #153a29;
+        --hot: #ff7650;
+        --hero-line: rgba(255,255,255,.055);
+        --shadow: 0 28px 90px rgba(0,0,0,.38);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Manrope, sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(18px);
+    }
+    .topbar .wrap { height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .pulse-mark { display: flex; align-items: center; gap: 10px; font-family: "DM Mono", monospace; font-size: 12px; color: var(--muted); }
+    .pulse-mark::before { content:""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 16%, transparent); }
+    nav { display: flex; align-items: center; gap: 25px; }
+    nav a { text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 700; }
+    nav a:hover, nav a:focus-visible { color: var(--ink); }
+    .nav-cta { color: var(--bg) !important; background: var(--ink); padding: 10px 15px; border-radius: 4px; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background-image: linear-gradient(var(--hero-line) 1px, transparent 1px), linear-gradient(90deg, var(--hero-line) 1px, transparent 1px);
+      background-size: 52px 52px;
+    }
+    .hero::after {
+      content:"";
+      position:absolute; inset:0;
+      pointer-events:none;
+      background: linear-gradient(90deg, var(--bg) 0%, transparent 28%, transparent 72%, var(--bg) 100%);
+    }
+    .hero-grid { position: relative; z-index: 1; min-height: 460px; padding: 64px 0 44px; display: grid; grid-template-columns: 1.42fr .58fr; gap: 68px; align-items: end; }
+    .hero-copy { align-self: center; }
+    .eyebrow { margin: 0 0 24px; display: flex; align-items: center; gap: 12px; font: 500 12px/1.2 "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    .eyebrow::before { content:""; width: 32px; height: 1px; background: currentColor; }
+    h1 { margin: 0; max-width: 890px; font-size: clamp(52px, 7.2vw, 98px); line-height: .97; letter-spacing: -.068em; font-weight: 800; }
+    h1 .accent-word { color: var(--accent); }
+    .hero-bottom { margin-top: 38px; display: grid; grid-template-columns: minmax(260px, 530px) auto; gap: 30px; align-items: end; }
+    .lede { margin: 0; color: var(--muted); font-size: clamp(17px, 2vw, 21px); line-height: 1.55; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 21px; border: 1px solid var(--ink); border-radius: 4px; text-decoration: none; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 800; white-space: nowrap; transition: background .2s, color .2s, border-color .2s; }
+    .button:hover { background: var(--accent); border-color: var(--accent); color: #04130c; }
+    .button.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
+    .button.secondary:hover { background: var(--surface-2); }
+    .hero-aside { border-top: 1px solid var(--line); padding-top: 22px; align-self: end; }
+    .hero-aside p { margin: 0 0 22px; font: 500 12px/1.4 "DM Mono", monospace; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+    .service-index { list-style: none; padding: 0; margin: 0; }
+    .service-index li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 14px; font-weight: 700; }
+    .service-index span { color: var(--accent); font-family: "DM Mono", monospace; font-size: 11px; padding-top: 3px; }
+
+    section { padding: 108px 0; }
+    .section-head { display: grid; grid-template-columns: .72fr 1.28fr; gap: 60px; align-items: start; margin-bottom: 54px; }
+    .section-no { font: 500 12px/1 "DM Mono", monospace; color: var(--accent); }
+    h2 { margin: 0; font-size: clamp(36px, 5vw, 65px); line-height: 1.03; letter-spacing: -.05em; }
+    .section-intro { margin: 22px 0 0; max-width: 650px; color: var(--muted); font-size: 18px; }
+
+    .services { border-bottom: 1px solid var(--line); }
+    .pillar-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+    .pillar { padding: 42px 46px 46px 0; }
+    .pillar + .pillar { border-left: 1px solid var(--line); padding-left: 46px; padding-right: 0; }
+    .pillar-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 52px; }
+    .pillar-tag { font: 500 11px/1 "DM Mono", monospace; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
+    .pillar-icon { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; color: var(--accent); }
+    .pillar-icon svg { width: 21px; height: 21px; }
+    h3 { margin: 0; font-size: clamp(25px, 3vw, 36px); line-height: 1.12; letter-spacing: -.035em; }
+    .pillar > p { margin: 18px 0 30px; color: var(--muted); max-width: 490px; }
+    .capabilities { list-style: none; margin: 0; padding: 0; }
+    .capabilities li { display: flex; gap: 13px; padding: 13px 0; border-top: 1px solid var(--line); font-size: 14px; font-weight: 650; }
+    .capabilities li::before { content: "↳"; color: var(--accent); font-family: "DM Mono", monospace; }
+
+    .work { background: var(--surface); border-bottom: 1px solid var(--line); }
+    .work .section-head { margin-bottom: 36px; }
+    .showcase-intro { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap: 20px; padding: 22px 0 28px; border-top:1px solid var(--line); }
+    .showcase-intro h3 { max-width: 560px; }
+    .status-chip { display: inline-flex; align-items:center; gap: 8px; border:1px solid var(--line); padding: 9px 12px; border-radius: 999px; font: 500 11px/1 "DM Mono", monospace; color:var(--muted); }
+    .status-chip::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--hot); }
+    .video-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+    .video-card { background: var(--surface-2); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .video-frame { position: relative; aspect-ratio: 9/12.4; max-height: 610px; background:#050505; overflow:hidden; }
+    .video-frame video { width:100%; height:100%; display:block; object-fit:contain; }
+    .video-meta { padding: 21px 22px 23px; display:grid; grid-template-columns: 1fr auto; gap:15px; align-items:start; }
+    .video-meta h4 { margin:0 0 6px; font-size:17px; letter-spacing:-.02em; }
+    .video-meta p { margin:0; color:var(--muted); font-size:13px; }
+    .sample-no { font:500 11px/1 "DM Mono",monospace; color:var(--accent); }
+    .loom-card { margin-top:28px; background:var(--surface-2); border:1px solid var(--line); box-shadow:var(--shadow); }
+    .loom-frame { position:relative; aspect-ratio:16/9; background:#050505; overflow:hidden; }
+    .loom-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+    .drive-video-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:28px; }
+    .drive-video-card { background:var(--surface-2); border:1px solid var(--line); box-shadow:var(--shadow); }
+    .drive-video-card:last-child { grid-column:1 / -1; }
+    .drive-video-frame { position:relative; aspect-ratio:16/9; background:#050505; overflow:hidden; }
+    .drive-video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+    .work-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:72px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .case { padding:30px 32px 32px 0; }
+    .case + .case { border-left:1px solid var(--line); padding-left:32px; }
+    .case-label { font:500 11px/1.3 "DM Mono",monospace; color:var(--accent); text-transform:uppercase; letter-spacing:.06em; }
+    .case h4 { margin:34px 0 13px; font-size:20px; line-height:1.25; letter-spacing:-.025em; }
+    .case p { margin:0; color:var(--muted); font-size:14px; }
+    .proof { margin-top:18px; display:inline-block; color:var(--ink); font:500 11px/1.4 "DM Mono",monospace; border-bottom:1px solid var(--accent); padding-bottom:4px; }
+
+    .process { border-bottom:1px solid var(--line); }
+    .process-list { counter-reset:steps; border-top:1px solid var(--line); }
+    .step { counter-increment:steps; display:grid; grid-template-columns:72px .7fr 1.3fr; gap:30px; align-items:start; padding:32px 0; border-bottom:1px solid var(--line); }
+    .step::before { content:"0" counter(steps); font:500 12px/1.5 "DM Mono",monospace; color:var(--accent); }
+    .step h3 { font-size:22px; }
+    .step p { margin:0; color:var(--muted); max-width:620px; }
+
+    .about { background:var(--surface); border-bottom:1px solid var(--line); }
+    .about-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:90px; align-items:start; }
+    .about-card { position:sticky; top:100px; border-top:2px solid var(--accent); padding-top:22px; }
+    .about-card p { margin:0 0 7px; color:var(--muted); font-size:13px; }
+    .about-card strong { display:block; font-size:22px; }
+    .about-copy h2 { max-width:740px; }
+    .about-copy > p { margin:28px 0; color:var(--muted); font-size:19px; max-width:720px; }
+    .principles { display:grid; grid-template-columns:1fr 1fr; gap:0 30px; margin-top:40px; border-top:1px solid var(--line); }
+    .principle { padding:22px 0; border-bottom:1px solid var(--line); }
+    .principle strong { display:block; margin-bottom:7px; font-size:15px; }
+    .principle p { margin:0; color:var(--muted); font-size:13px; }
+
+    .contact { padding:100px 0 42px; }
+    .contact-panel { position:relative; overflow:hidden; background:var(--accent); color:#06120b; padding:58px; }
+    .contact-panel::after { content:""; position:absolute; right:-10px; bottom:-90px; width:360px; height:240px; border:42px solid rgba(4,23,13,.12); border-radius:50%; transform:rotate(-10deg); }
+    .contact-panel > * { position:relative; z-index:1; }
+    .contact-panel .eyebrow { color:#08361f; }
+    .contact-panel h2 { max-width:780px; }
+    .contact-row { margin-top:36px; display:flex; justify-content:space-between; align-items:center; gap:28px; }
+    .contact-row p { margin:0; max-width:590px; font-size:17px; }
+    .contact-panel .button { background:#07110b; border-color:#07110b; color:#f3f7f4; }
+    footer { display:flex; justify-content:space-between; gap:20px; align-items:center; padding-top:28px; color:var(--muted); font:500 11px/1.4 "DM Mono",monospace; }
+    footer a { text-decoration:none; border-bottom:1px solid var(--line); }
+
+    @media (max-width: 860px) {
+      .wrap { width:min(100% - 32px, 680px); }
+      nav a:not(.nav-cta) { display:none; }
+      .hero-grid { min-height:auto; padding:70px 0 58px; grid-template-columns:1fr; gap:58px; }
+      .hero-bottom { grid-template-columns:1fr; align-items:start; }
+      .hero-bottom .button { justify-self:start; }
+      .section-head { grid-template-columns:1fr; gap:20px; }
+      .pillar-grid { grid-template-columns:1fr; }
+      .pillar { padding:36px 0; }
+      .pillar + .pillar { border-left:0; border-top:1px solid var(--line); padding:36px 0; }
+      .video-frame { max-height:none; }
+      .work-grid { grid-template-columns:1fr; }
+      .case { padding:28px 0; }
+      .case + .case { border-left:0; border-top:1px solid var(--line); padding:28px 0; }
+      .about-grid { grid-template-columns:1fr; gap:52px; }
+      .about-card { position:static; }
+    }
+    @media (max-width: 620px) {
+      .topbar .wrap { height:62px; }
+      .pulse-mark { font-size:10px; }
+      .nav-cta { padding:9px 12px; }
+      .hero-grid { padding-top:54px; }
+      h1 { font-size:clamp(46px,15vw,65px); }
+      section { padding:78px 0; }
+      .section-head { margin-bottom:38px; }
+      .video-stage { grid-template-columns:1fr; }
+      .video-frame { aspect-ratio:9/14; }
+      .drive-video-grid { grid-template-columns:1fr; }
+      .drive-video-card:last-child { grid-column:auto; }
+      .step { grid-template-columns:42px 1fr; gap:16px; }
+      .step p { grid-column:2; }
+      .principles { grid-template-columns:1fr; }
+      .contact { padding-top:72px; }
+      .contact-panel { padding:36px 25px; }
+      .contact-row { align-items:stretch; flex-direction:column; }
+      .contact-row .button { width:100%; }
+      footer { align-items:flex-start; flex-direction:column; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } * { transition:none !important; } }
+
+    /* ---- Mobile effectiveness pass ---- */
+    html, body { overflow-x: hidden; }
+    img, iframe, video { max-width: 100%; }
+    @media (max-width: 640px) {
+      /* Flagship package stacks cleanly */
+      .allinone { padding: 28px 22px; }
+      .allinone h3 { font-size: 22px; }
+      .allinone .deal { flex-direction: column; align-items: stretch; gap: 18px; text-align: center; }
+      .allinone .deal .plus { display: none; }
+      .allinone .deal .d1 strong { font-size: 34px; }
+      .allinone .button { margin-left: 0 !important; width: 100%; }
+      /* Playbook timeline tighter */
+      .playbook .wrap { padding-left: 20px; padding-right: 20px; }
+      .phase h3 { font-size: 18px; }
+      .phase p { font-size: 14.5px; }
+      /* Pricing note */
+      .pricing-note { font-size: 13.5px; padding: 0 8px; }
+      /* Section rhythm */
+      section { padding: 60px 0; }
+      .section-head { margin-bottom: 30px; }
+      /* Video cards full-bleed feel */
+      .video-card, .drive-video-card { border-radius: 12px; }
+      /* Tap targets */
+      .button { min-height: 54px; font-size: 15px; }
+    }
+    @media (max-width: 400px) {
+      h1 { font-size: clamp(38px, 13vw, 46px); }
+      h2 { font-size: clamp(26px, 8vw, 32px); }
+      .hero-grid { padding-top: 44px; gap: 40px; }
+      .wrap { width: calc(100% - 28px); }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" aria-label="Portfolio navigation">
+    <div class="wrap">
+      <div class="pulse-mark">AI SYSTEMS / MARKETING</div>
+      <nav aria-label="Sections">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+        <a href="#about">About</a>
+        <a class="nav-cta" href="mailto:officialnightpulseai@gmail.com?subject=Let's%20discuss%20an%20AI%20system">Start a conversation</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Automation + growth, built together</p>
+          <h1 id="hero-title">Systems that answer. Marketing that <span class="accent-word">moves.</span></h1>
+          <div class="hero-bottom">
+            <p class="lede">Night Pulse AI builds the infrastructure behind growth — from AI agents that handle conversations to content systems that create demand.</p>
+            <a class="button" href="#work">See the work&nbsp; ↓</a>
+          </div>
+        </div>
+        <aside class="hero-aside" aria-label="Core capabilities">
+          <p>Two sides of one growth stack</p>
+          <ol class="service-index">
+            <li><span>01</span> AI automation services</li>
+            <li><span>02</span> AI-powered marketing</li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="services" id="services" aria-labelledby="services-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">01 / SERVICES</span>
+          <div><h2 id="services-title">One partner across the whole customer journey.</h2><p class="section-intro">Connect the moments that create revenue: the first call, the first message, the follow-up and the campaign that started the conversation.</p></div>
+        </div>
+        <div class="pillar-grid">
+          <article class="pillar">
+            <div class="pillar-top"><span class="pillar-tag">Pillar 01</span><span class="pillar-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 8.5A3.5 3.5 0 0 1 7.5 5h9A3.5 3.5 0 0 1 20 8.5v5a3.5 3.5 0 0 1-3.5 3.5H13l-4.5 3v-3h-1A3.5 3.5 0 0 1 4 13.5v-5Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg></span></div>
+            <h3>AI Automation Services</h3>
+            <p>Responsive, connected systems that keep customer conversations moving and give teams one reliable view of every lead.</p>
+            <ul class="capabilities">
+              <li>Inbound AI voice agents</li>
+              <li>Website chatbots</li>
+              <li>WhatsApp booking and lead qualification</li>
+              <li>SMS and email promotions / win-back</li>
+              <li>Custom CRMs for cross-channel leads</li>
+            </ul>
+          </article>
+          <article class="pillar">
+            <div class="pillar-top"><span class="pillar-tag">Pillar 02</span><span class="pillar-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m6 4 13 8-13 8V4Z"/><path d="M3 5.5v13"/></svg></span></div>
+            <h3>AI-Powered Marketing</h3>
+            <p>Conversion-minded creative and content operations designed to turn attention into a consistent, testable growth engine.</p>
+            <ul class="capabilities">
+              <li>AI UGC video ads for TikTok and Meta</li>
+              <li>Hooks, karaoke captions and clear CTAs</li>
+              <li>Full content production engines</li>
+              <li>Marketing strategy</li>
+              <li>30-day content systems</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="playbook" id="plan" aria-labelledby="plan-title">
+      <style>
+        .playbook { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .playbook .wrap { max-width: 960px; }
+        .phases { margin-top: 44px; position: relative; }
+        .phases::before { content: ""; position: absolute; left: 27px; top: 12px; bottom: 12px; width: 2px; background: var(--line); }
+        .phase { position: relative; padding: 0 0 36px 72px; }
+        .phase:last-child { padding-bottom: 0; }
+        .phase .pnum { position: absolute; left: 0; top: 0; width: 56px; height: 56px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
+        .phase h3 { font-size: 20px; margin-bottom: 8px; }
+        .phase h3 .ptag { display: inline-block; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 800; margin-right: 10px; }
+        .phase p { color: var(--muted); font-size: 15.5px; max-width: 640px; }
+        .phase p strong { color: var(--ink); }
+        @media (max-width: 640px) { .phases::before { left: 21px; } .phase { padding-left: 62px; } .phase .pnum { width: 44px; height: 44px; font-size: 15px; } }
+      </style>
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">03 / THE PLAYBOOK</span>
+          <div><h2 id="plan-title">What we will do for you.</h2><p class="section-intro">A phased rollout: demand first, then the AI systems that catch every bit of it. Each phase compounds the last.</p></div>
+        </div>
+        <div class="phases">
+          <div class="phase">
+            <div class="pnum">1</div>
+            <h3><span class="ptag">Phase One</span>UGC Ads at Mass Level</h3>
+            <p>We flood TikTok and Meta with scroll-stopping <strong>AI-generated UGC video ads</strong> — hooks, stories, testimonials — produced at a volume no traditional agency can match. <strong>Mass output creates mass attention.</strong></p>
+          </div>
+          <div class="phase">
+            <div class="pnum">2</div>
+            <h3><span class="ptag">Phase Two</span>AI Responds as Your Business</h3>
+            <p>As the comments and requests pour in, managing them manually becomes impossible. So we deploy an <strong>AI response system that replies naturally — as your business representative</strong> — to every comment and DM, instantly and in your voice.</p>
+          </div>
+          <div class="phase">
+            <div class="pnum">3</div>
+            <h3><span class="ptag">Phase Three</span>Everything at Your Fingertips</h3>
+            <p>A <strong>daily report with every stat that matters</strong> — leads, bookings, ad performance, response times. You know exactly what's happening in your business, every single day, without chasing anyone.</p>
+          </div>
+          <div class="phase">
+            <div class="pnum">4</div>
+            <h3><span class="ptag">Phase Four</span>Inbound AI Voice Agent</h3>
+            <p>An <strong>AI voice agent that handles your inbound customer calls and queries</strong> — answering questions, qualifying callers, and booking them in, 24/7, even when you're closed.</p>
+          </div>
+          <div class="phase">
+            <div class="pnum">5</div>
+            <h3><span class="ptag">Phase Five</span>WhatsApp AI Agent</h3>
+            <p>A <strong>WhatsApp agent so every query gets the right answer, effectively</strong> — instant, accurate, on-brand replies that turn chats into confirmed bookings while you sleep.</p>
+          </div>
+          <div class="phase">
+            <div class="pnum">6</div>
+            <h3><span class="ptag">Phase Six</span>Automatic Client Reactivation</h3>
+            <p>A <strong>follow-up system that automatically reconnects with old customers</strong> — sending promotional offers and percentage-off deals at the right moment. Your past clients are your warmest leads: <strong>this turns them into repeat bookings on autopilot.</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work" id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">02 / SELECTED WORK</span>
+          <div><h2 id="work-title">Built work, not pitch-deck promises.</h2><p class="section-intro">A mix of creative production, customer-facing agents and the systems behind daily execution.</p></div>
+        </div>
+
+        
+
+
+        <div class="drive-video-grid" aria-label="Additional project videos">
+          <article class="drive-video-card">
+            <div class="drive-video-frame"><iframe src="https://drive.google.com/file/d/1WTOyBNPz0sAx39HV8tby7NWZI_-ejdIL/preview" title="Project video sample one" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+            <div class="video-meta"><div><h4>Project video</h4></div><span class="sample-no">04</span></div>
+          </article>
+          <article class="drive-video-card">
+            <div class="drive-video-frame"><iframe src="https://drive.google.com/file/d/1BNj6RB4ofU8IY1Mdqk97KiJ1KY9DzvMm/preview" title="Project video sample two" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+            <div class="video-meta"><div><h4>Project video</h4></div><span class="sample-no">05</span></div>
+          </article>
+          <article class="drive-video-card">
+            <div class="drive-video-frame"><iframe src="https://drive.google.com/file/d/1huI-5RQErgSYZrElDPoKbeAdsI53fzTt/preview" title="Project video sample three" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+            <div class="video-meta"><div><h4>Project video</h4></div><span class="sample-no">06</span></div>
+          </article>
+          <article class="drive-video-card">
+            <div class="drive-video-frame"><iframe src="https://drive.google.com/file/d/1rCb2MbmpHy_oKUW0hCSLlD3U_jr6-znN/preview" title="AI consultation concept" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+            <div class="video-meta"><div><h4>Project video</h4></div><span class="sample-no">07</span></div>
+          </article>
+          <article class="drive-video-card">
+            <div class="drive-video-frame"><iframe src="https://drive.google.com/file/d/1pu7xSdp6OC_wftxmmonwZ2y27-q9iXdj/preview" title="Consultation vlog concept" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+            <div class="video-meta"><div><h4>Project video</h4></div><span class="sample-no">08</span></div>
+          </article>
+          <article class="drive-video-card">
+            <div class="drive-video-frame"><iframe src="https://drive.google.com/file/d/194cAJpjXLU1_zBKlG-JaTz-VoFnUcWF7/preview" title="Q and A concept" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+            <div class="video-meta"><div><h4>Project video</h4></div><span class="sample-no">09</span></div>
+          </article>
+        </div>
+
+        <div class="work-grid">
+          <article class="case"><span class="case-label">Automation / WhatsApp</span><h4>AI booking agent</h4><p>Designed and built a standalone booking agent with webhook verification, HMAC validation, asynchronous replies and per-sender conversation history.</p><span class="proof">LOCAL TEST SUITE: 7 / 7</span></article>
+          <article class="case"><span class="case-label">Automation / Operations</span><h4>Home-services autopilot</h4><p>An inbound voice agent, website chatbot and SMS/email promotion automation designed as one connected customer-handling system.</p></article>
+          <article class="case"><span class="case-label">Marketing / D2C</span><h4>Growth and content systems</h4><p>A 90-day growth plan and 30-day content pack for a women’s-health D2C brand, alongside AI content engines built for daily production.</p></article>
+          <article class="case"><span class="case-label">Automation / Retention</span><h4>Win-back automation</h4><p>An SMS and email reactivation system built for a client to support consistent, structured follow-up with past customers.</p></article>
+          <article class="case"><span class="case-label">Data / CRM</span><h4>Single-view lead CRM</h4><p>A custom CRM designed to bring leads from multiple channels into one place, making ownership and follow-up clearer.</p></article>
+          <article class="case"><span class="case-label">Content / Production</span><h4>Daily AI content engines</h4><p>Repeatable workflows for strategy, hooks, scripts, creative assembly and platform-native publishing.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" id="process" aria-labelledby="process-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">03 / PROCESS</span>
+          <div><h2 id="process-title">Start with the leak. Build the right system.</h2><p class="section-intro">The work begins with the actual customer journey — not a pre-selected tool stack.</p></div>
+        </div>
+        <div class="process-list">
+          <article class="step"><h3>Map</h3><p>Find the points where attention, leads or customer conversations are being lost.</p></article>
+          <article class="step"><h3>Design</h3><p>Define the agent, automation or marketing system around the team’s real workflow and offer.</p></article>
+          <article class="step"><h3>Build</h3><p>Create the flows, conversation logic, creative assets and integrations needed to make it work.</p></article>
+          <article class="step"><h3>Test</h3><p>Pressure-test the important paths, tighten the handoffs and make sure the system is ready for real use.</p></article>
+          <article class="step"><h3>Improve</h3><p>Use what customers and campaigns reveal to strengthen the next iteration.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="about-title">
+      <div class="wrap about-grid">
+        <aside class="about-card"><p>FOUNDER / BUILDER</p><strong>Moeen</strong><p>AI Automation Specialist</p></aside>
+        <div class="about-copy">
+          <span class="section-no">04 / ABOUT</span>
+          <h2 id="about-title">Strategy close enough to the build to stay honest.</h2>
+          <p>Night Pulse AI is led by Moeen, an AI Automation Specialist working across customer-facing automation, CRM workflows, content systems and AI-assisted creative production.</p>
+          <p>The focus is practical: understand the commercial problem, build the system around it, and make the output usable by the team that has to run it.</p>
+          <div class="principles">
+            <div class="principle"><strong>Business problem first</strong><p>Automation follows the customer journey, not the newest tool.</p></div>
+            <div class="principle"><strong>Build beyond the demo</strong><p>Conversation logic, validation, handoffs and follow-up all matter.</p></div>
+            <div class="principle"><strong>Creative with a job</strong><p>Every hook, edit and CTA should support a clear conversion path.</p></div>
+            <div class="principle"><strong>Systems that connect</strong><p>Marketing and operations are designed as one growth loop.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing" aria-labelledby="pricing-title">
+      <style>
+        .pricing .wrap { max-width: 1200px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; }
+        .price-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 34px 30px; display: flex; flex-direction: column; position: relative; }
+        .price-card.featured { border: 2px solid var(--accent); transform: scale(1.03); }
+        .price-card .tier { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 10px; }
+        .price-card.featured .tier { color: var(--accent); }
+        .price-card h3 { font-size: 24px; margin-bottom: 8px; }
+        .price-card .price { font-size: 15px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+        .price-card .price strong { color: var(--ink); font-size: 20px; }
+        .price-card ul { list-style: none; margin: 0 0 28px; padding: 0; flex-grow: 1; }
+        .price-card li { padding: 8px 0 8px 26px; position: relative; font-size: 14.5px; border-top: 1px solid var(--line); }
+        .price-card li::before { content: "✓"; position: absolute; left: 2px; color: var(--accent); font-weight: 800; }
+        .price-card .button { text-align: center; }
+        .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #04130c; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 16px; border-radius: 999px; white-space: nowrap; }
+        .pricing-note { text-align: center; color: var(--muted); font-size: 14px; margin-top: 30px; }
+        @media (max-width: 860px) { .pricing-grid { grid-template-columns: 1fr; } .price-card.featured { transform: none; } }
+      </style>
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-no">05 / PRICING</span>
+          <div><h2 id="pricing-title">Start with proof, scale with systems.</h2><p class="section-intro">Every engagement begins with a free pilot — you see the system working on your business before spending anything. Final scope and pricing are fixed on the discovery call.</p></div>
+        </div>
+        <div class="allinone">
+          <style>
+            .allinone { margin-top: 34px; background: linear-gradient(135deg, rgba(88,227,158,.08), rgba(88,227,158,.02)); border: 2px solid var(--accent); border-radius: 16px; padding: 38px 36px; position: relative; overflow: hidden; }
+            .allinone .tier { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 800; margin-bottom: 10px; }
+            .allinone h3 { font-size: 26px; margin-bottom: 10px; }
+            .allinone .tagline { color: var(--muted); font-size: 15.5px; margin-bottom: 22px; max-width: 640px; }
+            .allinone .includes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; margin-bottom: 26px; }
+            .allinone .includes span { font-size: 14.5px; padding-left: 26px; position: relative; }
+            .allinone .includes span::before { content: "✓"; position: absolute; left: 2px; color: var(--accent); font-weight: 800; }
+            .allinone .deal { display: flex; gap: 36px; flex-wrap: wrap; align-items: center; border-top: 1px solid var(--line); padding-top: 24px; }
+            .allinone .deal .d1 { font-size: 15px; }
+            .allinone .deal .d1 strong { display: block; font-size: 30px; color: var(--ink); }
+            .allinone .deal .d1 span { color: var(--muted); font-size: 13px; }
+            .allinone .deal .plus { font-size: 26px; color: var(--muted); font-weight: 300; }
+            @media (max-width: 640px) { .allinone .includes { grid-template-columns: 1fr; } }
+          </style>
+          <div class="tier">Flagship — Everything Done For You</div>
+          <h3>Entire Business on AI</h3>
+          <p class="tagline">The complete playbook, fully built and run for you — UGC ads at mass level, AI responder, daily reports, voice agent, WhatsApp agent, and client reactivation. Your whole front desk and marketing, automated.</p>
+          <div class="includes">
+            <span>UGC video ads at mass level</span>
+            <span>AI comment &amp; DM responder</span>
+            <span>Daily reports &amp; stats dashboard</span>
+            <span>Inbound AI voice agent</span>
+            <span>WhatsApp AI booking agent</span>
+            <span>Automatic client reactivation offers</span>
+          </div>
+          <div class="deal">
+            <div class="d1"><strong>£900</strong><span>upfront — covers the first month,<br>all tools &amp; every expense</span></div>
+            <div class="plus">then</div>
+            <div class="d1"><strong>£350<span style="font-size:16px">/mo</span></strong><span>plus 15% commission<br>on every client booked</span></div>
+            <a class="button" href="mailto:officialnightpulseai@gmail.com?subject=Entire%20Business%20on%20AI%20package" style="margin-left:auto">Claim This Package</a>
+          </div>
+        </div>
+        <p class="pricing-note">Not sure which fits? Book a call — we'll tell you honestly what your business actually needs.</p>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <div class="contact-panel">
+          <p class="eyebrow">Your next system</p>
+          <h2 id="contact-title">What should your business stop handling manually?</h2>
+          <div class="contact-row"><p>Bring the customer journey, bottleneck or campaign idea. We’ll map where automation and AI-powered marketing can create the most leverage.</p><a class="button" href="mailto:officialnightpulseai@gmail.com?subject=AI%20automation%20%26%20marketing%20project">officialnightpulseai@gmail.com&nbsp; ↗</a></div>
+        </div>
+        <footer><span>Night Pulse AI — Automation × AI-Powered Marketing</span><a href="mailto:officialnightpulseai@gmail.com">Contact</a></footer>
+      </div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var videos = document.querySelectorAll('video');
+      videos.forEach(function (video) {
+        video.addEventListener('play', function () {
+          videos.forEach(function (other) { if (other !== video) other.pause(); });
+        });
+      });
+    }());
+  </script>
+</body>
+</html>
